@@ -2,7 +2,7 @@
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import { createCanvas, registerFont } from "canvas";
+import { createCanvas, loadImage } from "canvas";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
