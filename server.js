@@ -20,8 +20,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000", // Local frontend
-      "https://clinigoal.vercel.app", // Main frontend (users)
-      "https://clinigoal-admin.vercel.app", // Admin dashboard
+      "https://clinigoal-frontend-zeta.vercel.app", // Main frontend (users)
+
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

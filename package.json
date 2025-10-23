@@ -1,6 +1,7 @@
 {
   "name": "clinigoal-backend",
   "version": "1.0.0",
+  "description": "Clinigoal backend for course, user, and payment management",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -10,7 +11,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
-    "canvas": "^3.2.0",
+    "canvas": "^3.0.0",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
@@ -25,5 +26,18 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "backend",
+    "clinigoal",
+    "razorpay",
+    "cloudinary"
+  ],
+  "author": "Clinigoal Team",
+  "license": "ISC"
 }
