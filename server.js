@@ -15,7 +15,7 @@ connectDB();
 // ✅ Initialize Express App
 const app = express();
 
-// ✅ Middleware
+// ✅ CORS Configuration
 app.use(
   cors({
     origin: [
@@ -27,6 +27,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// ✅ Middleware
 app.use(express.json({ limit: "10mb" }));
 
 // ✅ Setup directory paths
@@ -54,7 +56,7 @@ import enrollmentRoutes from "./routes/enrollmentRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import activityRoutes from "./routes/activityRoutes.js";
 import userProgressRoutes from "./routes/userProgressRoutes.js";
-import certificateRoutes from "./routes/certificateRoutes.js"; // ✅ NEW: Certificate generation route
+import certificateRoutes from "./routes/certificateRoutes.js"; // ✅ Certificate route
 
 // ✅ Register API routes
 app.use("/api/users", userRoutes);
@@ -70,7 +72,7 @@ app.use("/api/admin/user-tracking", adminUserTrackingRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use("/api/certificates", certificateRoutes); // ✅ Add Certificate route
+app.use("/api/certificates", certificateRoutes); // ✅ Added Certificate route
 
 // ✅ Serve uploaded files (videos, images, certificates, etc.)
 app.use("/uploads", express.static(uploadDir));
@@ -88,7 +90,7 @@ app.get("/", (req, res) => {
       reviews: "✅ Review Management System Active",
       userTracking: "✅ User Activity Tracking Active",
       detailedProgress: "✅ Detailed Course Progress Tracking Active",
-      certificate: "✅ Certificate Generation Active", // ✅ Added
+      certificate: "✅ Certificate Generation Active",
       courses: "✅ Course Management",
       videos: "✅ Video Management",
       quizzes: "✅ Quiz System",
@@ -116,7 +118,7 @@ app.use((req, res) => {
       "/api/approvals",
       "/api/payments",
       "/api/enrollments",
-      "/api/certificates", // ✅ Added to list
+      "/api/certificates",
     ],
   });
 });
@@ -137,19 +139,19 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Clinigoal backend running on port ${PORT}`);
   console.log("📊 Available API Endpoints:");
-  console.log("   • GET  /api/activity - Get all user activity");
-  console.log("   • GET  /api/progress/user/:userId - Get detailed progress for a user");
-  console.log("   • PUT  /api/progress/video - Update video watch time");
-  console.log("   • PUT  /api/progress/quiz - Update quiz score");
-  console.log("   • PUT  /api/progress/assignment - Mark assignment as submitted");
-  console.log("   • PUT  /api/progress/certificate - Mark certificate as generated");
-  console.log("   • POST /api/certificates/generate - Generate a user certificate ✅");
-  console.log("   • GET  /api/users - Get all users");
-  console.log("   • POST /api/users/register - Register a new user");
-  console.log("   • POST /api/users/login - Login a user");
-  console.log("   • GET  /api/reviews - Get all reviews");
-  console.log("   • POST /api/reviews - Create a review");
-  console.log("   • GET  /api/reviews/stats - Get review statistics");
+  console.log("   • GET  /api/activity");
+  console.log("   • GET  /api/progress/user/:userId");
+  console.log("   • PUT  /api/progress/video");
+  console.log("   • PUT  /api/progress/quiz");
+  console.log("   • PUT  /api/progress/assignment");
+  console.log("   • PUT  /api/progress/certificate");
+  console.log("   • POST /api/certificates/generate");
+  console.log("   • GET  /api/users");
+  console.log("   • POST /api/users/register");
+  console.log("   • POST /api/users/login");
+  console.log("   • GET  /api/reviews");
+  console.log("   • POST /api/reviews");
+  console.log("   • GET  /api/reviews/stats");
 
   if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
     console.warn("⚠️ Razorpay keys missing — running in DUMMY PAYMENT MODE!");
