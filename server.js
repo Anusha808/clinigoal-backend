@@ -16,15 +16,27 @@ connectDB();
 const app = express();
 
 // ✅ CORS Configuration
+const allowedOrigins = [
+  "http://localhost:3000", // Local frontend
+  "https://clinigoal-frontend-new.vercel.app", // New deployed frontend
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000", // Local frontend
-      "https://clinigoal-frontend-zeta.vercel.app", // Main frontend (users)
-
-    ],
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman or mobile apps)
+      if (!origin) return callback(null, true);
+      if (!allowedOrigins.includes(origin)) {
+        return callback(
+          new Error("⚠️ CORS policy blocked this origin."),
+          false
+        );
+      }
+      return callback(null, true);
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
@@ -72,7 +84,7 @@ app.use("/api/admin/user-tracking", adminUserTrackingRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use("/api/certificates", certificateRoutes); // ✅ Added Certificate route
+app.use("/api/certificates", certificateRoutes); // ✅ Certificate route
 
 // ✅ Serve uploaded files (videos, images, certificates, etc.)
 app.use("/uploads", express.static(uploadDir));
