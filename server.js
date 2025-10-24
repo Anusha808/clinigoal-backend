@@ -16,23 +16,23 @@ connectDB();
 const app = express();
 
 // ✅ CORS Configuration
-const allowedOrigins = [
-  "http://localhost:3000", // Local frontend
-  "https://clinigoal-frontend-new.vercel.app", // New deployed frontend
-];
-
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like Postman or mobile apps)
+      // Allow requests with no origin (like Postman)
       if (!origin) return callback(null, true);
-      if (!allowedOrigins.includes(origin)) {
-        return callback(
-          new Error("⚠️ CORS policy blocked this origin."),
-          false
-        );
-      }
-      return callback(null, true);
+
+      // Allow localhost
+      if (origin.startsWith("http://localhost")) return callback(null, true);
+
+      // Allow main frontend
+      if (origin === "https://clinigoal-frontend-new.vercel.app") return callback(null, true);
+
+      // Allow any Vercel preview deployment dynamically
+      if (origin.endsWith(".vercel.app")) return callback(null, true);
+
+      // Block all other origins
+      return callback(new Error("⚠️ CORS policy blocked this origin."), false);
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -68,7 +68,7 @@ import enrollmentRoutes from "./routes/enrollmentRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import activityRoutes from "./routes/activityRoutes.js";
 import userProgressRoutes from "./routes/userProgressRoutes.js";
-import certificateRoutes from "./routes/certificateRoutes.js"; // ✅ Certificate route
+import certificateRoutes from "./routes/certificateRoutes.js";
 
 // ✅ Register API routes
 app.use("/api/users", userRoutes);
@@ -84,9 +84,9 @@ app.use("/api/admin/user-tracking", adminUserTrackingRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use("/api/certificates", certificateRoutes); // ✅ Certificate route
+app.use("/api/certificates", certificateRoutes);
 
-// ✅ Serve uploaded files (videos, images, certificates, etc.)
+// ✅ Serve uploaded files
 app.use("/uploads", express.static(uploadDir));
 
 // ✅ Health check route
